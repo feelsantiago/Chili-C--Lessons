@@ -42,6 +42,8 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
+	// Cross-Line Target Draw 
+
 	// Left Line
 	gfx.PutPixel(700, 504, 255, 255, 255);
 	gfx.PutPixel(701, 504, 255, 255, 255);
