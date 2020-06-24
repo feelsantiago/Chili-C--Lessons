@@ -43,26 +43,26 @@ void Game::UpdateModel()
 void Game::ComposeFrame()
 {
 	// Cross-Line Target Draw 
-	const int dx = 400;
-	const int dy = 300;
+	const int x = 400;
+	const int y = 300;
 
 	// Left Line
-	gfx.PutPixel(-5 + dx, dy, 255, 255, 255);
-	gfx.PutPixel(-4 + dx, dy, 255, 255, 255);
-	gfx.PutPixel(-3 + dx, dy, 255, 255, 255);
+	gfx.PutPixel(-5 + x, y, 255, 255, 255);
+	gfx.PutPixel(-4 + x, y, 255, 255, 255);
+	gfx.PutPixel(-3 + x, y, 255, 255, 255);
 
 	// Right Line
-	gfx.PutPixel(3 + dx, dy, 255, 255, 255);
-	gfx.PutPixel(4 + dx, dy, 255, 255, 255);
-	gfx.PutPixel(5 + dx, dy, 255, 255, 255);
+	gfx.PutPixel(3 + x, y, 255, 255, 255);
+	gfx.PutPixel(4 + x, y, 255, 255, 255);
+	gfx.PutPixel(5 + x, y, 255, 255, 255);
 
 	// Upper Line
-	gfx.PutPixel(dx, -5 + dy, 255, 255, 255);
-	gfx.PutPixel(dx, -4 + dy, 255, 255, 255);
-	gfx.PutPixel(dx, -3 + dy, 255, 255, 255);
+	gfx.PutPixel(x, -5 + y, 255, 255, 255);
+	gfx.PutPixel(x, -4 + y, 255, 255, 255);
+	gfx.PutPixel(x, -3 + y, 255, 255, 255);
 
 	// Bottom Line
-	gfx.PutPixel(dx, 3 + dy, 255, 255, 255);
-	gfx.PutPixel(dx, 4 + dy, 255, 255, 255);
-	gfx.PutPixel(dx, 5 + dy, 255, 255, 255);
+	gfx.PutPixel(x, 3 + y, 255, 255, 255);
+	gfx.PutPixel(x, 4 + y, 255, 255, 255);
+	gfx.PutPixel(x, 5 + y, 255, 255, 255);
 }
