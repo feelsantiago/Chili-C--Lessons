@@ -43,4 +43,17 @@ private:
 	/********************************/
 	/*  User Variables              */
 	/********************************/
+	int x = 400;
+	int y = 300;
+	int vx = 0;
+	int vy = 0;
+	bool rightMaxVelocity = false;
+	bool leftMaxVelocity = false;
+	bool upMaxVelocity = false;
+	bool bottomMaxVelocity = false;
+	bool shapeIsChange = false;
+	int color = 255;
+
+	int boxX = 300;
+	int boxY = 200;
 };

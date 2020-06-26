@@ -38,44 +38,121 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	/* Moviment */
+
+	// up
+	if (wnd.kbd.KeyIsPressed(VK_UP))
+	{
+		if (!upMaxVelocity)
+		{
+			vy = -1;
+			upMaxVelocity = true;
+		}
+	}
+	else 
+	{
+		upMaxVelocity = false;
+	}
+	
+	// down
+	if (wnd.kbd.KeyIsPressed(VK_DOWN))
+	{
+		if (!bottomMaxVelocity)
+		{
+			vy = 1;
+			bottomMaxVelocity = true;
+		}
+	}
+	else
+	{
+		bottomMaxVelocity = false;
+	}
+
+	// left
+	if (wnd.kbd.KeyIsPressed(VK_LEFT))
+	{
+		if (!leftMaxVelocity)
+		{
+			vx = -1;
+			leftMaxVelocity = true;
+		}
+	}
+	else
+	{
+		leftMaxVelocity = false;
+	}
+	
+	// right
+	if (wnd.kbd.KeyIsPressed(VK_RIGHT))
+	{
+		if (!rightMaxVelocity)
+		{
+			vx = 1;
+			rightMaxVelocity = true;
+		}
+	}
+	else
+	{
+		rightMaxVelocity = false;
+	}
+
+	// reset velocity
+	if (wnd.kbd.KeyIsPressed(VK_SPACE))
+	{
+		vx = 0;
+		vy = 0;
+	}
+
+	// update velocity
+	x += vx;
+	y += vy;
+
+	/* Boundary Checks */
+
+	// out of bounds
+	if (x + 5 >= gfx.ScreenWidth) 
+	{
+		x = gfx.ScreenWidth - 6;
+		vx = 0;
+	} 
+	else if (x - 5 < 0)
+	{
+		x = 5;
+	}
+
+	if (y + 5 >= gfx.ScreenHeight) 
+	{
+		y = gfx.ScreenHeight - 6;
+		vy = 0;
+	}
+	else if (y - 5 < 0)
+	{
+		y = 5;
+	}
+
+	// overlaps box
+	if ((x >= boxX && x <= (boxX + 6)) && (y >= boxY && y <= (boxY + 6)))
+	{
+		color = 0;
+	} 
+	else
+	{
+		color = 255;
+	}
+
+	// change color
+	if (wnd.kbd.KeyIsPressed(VK_CONTROL)) 
+	{
+		color = 0;
+	}
+
+	shapeIsChange = wnd.kbd.KeyIsPressed(VK_SHIFT);
 }
 
 void Game::ComposeFrame()
 {
-	// const definitions
-	const int moviment = 100;
-
-	// target variables 
-	int x = 400;
-	int y = 300;
-	int color = 255;
-
-	// moviment
-	if (wnd.kbd.KeyIsPressed(VK_UP))
-	{
-		y -= moviment;
-	}
-	else if (wnd.kbd.KeyIsPressed(VK_DOWN))
-	{
-		y += moviment;
-	}
-
-	if (wnd.kbd.KeyIsPressed(VK_LEFT))
-	{
-		x -= moviment;
-	}
-	else if (wnd.kbd.KeyIsPressed(VK_RIGHT))
-	{
-		x += moviment;
-	}
-
-	// change color
-	if (wnd.kbd.KeyIsPressed(VK_CONTROL)) {
-		color = 0;
-	}
-
 	// point shape 
-	if (wnd.kbd.KeyIsPressed(VK_SHIFT)) {
+	if (shapeIsChange) {
 		gfx.PutPixel(x, 1 + y, 255, color, 255);
 		gfx.PutPixel(x, 1 + y, 255, color, 255);
 		gfx.PutPixel(x, 1 + y, 255, color, 255);
@@ -107,4 +184,40 @@ void Game::ComposeFrame()
 		gfx.PutPixel(x, 5 + y, 255, color, 255);
 	}
 
+	// drawn box
+	// upper line
+	gfx.PutPixel(boxX, boxY, 0, 255, 0);
+	gfx.PutPixel(boxX + 1, boxY, 0, 255, 0);
+	gfx.PutPixel(boxX + 2, boxY, 0, 255, 0);
+	gfx.PutPixel(boxX + 3, boxY, 0, 255, 0);
+	gfx.PutPixel(boxX + 4, boxY, 0, 255, 0);
+	gfx.PutPixel(boxX + 5, boxY, 0, 255, 0);
+	gfx.PutPixel(boxX + 6, boxY, 0, 255, 0);
+
+	// bottom line
+	gfx.PutPixel(boxX, boxY + 6, 0, 255, 0);
+	gfx.PutPixel(boxX + 1, boxY + 6, 0, 255, 0);
+	gfx.PutPixel(boxX + 2, boxY + 6, 0, 255, 0);
+	gfx.PutPixel(boxX + 3, boxY + 6, 0, 255, 0);
+	gfx.PutPixel(boxX + 4, boxY + 6, 0, 255, 0);
+	gfx.PutPixel(boxX + 5, boxY + 6, 0, 255, 0);
+	gfx.PutPixel(boxX + 6, boxY + 6, 0, 255, 0);
+
+	// left line
+	gfx.PutPixel(boxX, boxY, 0, 255, 0);
+	gfx.PutPixel(boxX, boxY + 1, 0, 255, 0);
+	gfx.PutPixel(boxX, boxY + 2, 0, 255, 0);
+	gfx.PutPixel(boxX, boxY + 3, 0, 255, 0);
+	gfx.PutPixel(boxX, boxY + 4, 0, 255, 0);
+	gfx.PutPixel(boxX, boxY + 5, 0, 255, 0);
+	gfx.PutPixel(boxX, boxY + 6, 0, 255, 0);
+
+	// right line
+	gfx.PutPixel(boxX + 6, boxY, 0, 255, 0);
+	gfx.PutPixel(boxX + 6, boxY + 1, 0, 255, 0);
+	gfx.PutPixel(boxX + 6, boxY + 2, 0, 255, 0);
+	gfx.PutPixel(boxX + 6, boxY + 3, 0, 255, 0);
+	gfx.PutPixel(boxX + 6, boxY + 4, 0, 255, 0);
+	gfx.PutPixel(boxX + 6, boxY + 5, 0, 255, 0);
+	gfx.PutPixel(boxX + 6, boxY + 6, 0, 255, 0);
 }
