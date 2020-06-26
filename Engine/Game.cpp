@@ -130,20 +130,37 @@ void Game::UpdateModel()
 		y = 5;
 	}
 
+	const int leftEdge = x - 5;
+	const int rightEdge = x + 5;
+	const int topEdge = y - 5;
+	const int bottomEdge = y + 5;
+
+	const int boxLeftEdge = boxX - 6;
+	const int boxRightEdge = boxX + 6;
+	const int boxTopEdge = boxY - 6;
+	const int boxBottomEdge = boxY + 6;
+
 	// overlaps box
-	if ((x >= boxX && x <= (boxX + 6)) && (y >= boxY && y <= (boxY + 6)))
+	if (leftEdge < boxRightEdge &&
+		rightEdge > boxLeftEdge &&
+		topEdge < boxBottomEdge &&
+		bottomEdge > boxBottomEdge)
 	{
-		color = 0;
+		isColliding = true;
 	} 
 	else
 	{
-		color = 255;
+		isColliding = false;
 	}
 
 	// change color
-	if (wnd.kbd.KeyIsPressed(VK_CONTROL)) 
+	if (wnd.kbd.KeyIsPressed(VK_CONTROL) || isColliding)
 	{
 		color = 0;
+	}
+	else
+	{
+		color = 255;
 	}
 
 	shapeIsChange = wnd.kbd.KeyIsPressed(VK_SHIFT);

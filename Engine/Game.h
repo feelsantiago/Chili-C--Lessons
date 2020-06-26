@@ -52,6 +52,7 @@ private:
 	bool upMaxVelocity = false;
 	bool bottomMaxVelocity = false;
 	bool shapeIsChange = false;
+	bool isColliding = false;
 	int color = 255;
 
 	int boxX = 300;
