@@ -132,7 +132,7 @@ int Game::FixOutOfBound(int value, int maxValue)
 {
 	if (value + 5 > maxValue) 
 	{
-		return maxValue - 5;
+		return maxValue - 6;
 	}
 	else if (value - 5 < 0)
 	{
