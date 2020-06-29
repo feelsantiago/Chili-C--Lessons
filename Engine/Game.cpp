@@ -38,203 +38,107 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	/* Moviment */
-
-	// up
-	if (wnd.kbd.KeyIsPressed(VK_UP))
-	{
-		if (!upMaxVelocity)
-		{
-			vy = -1;
-			upMaxVelocity = true;
-		}
-	}
-	else 
-	{
-		upMaxVelocity = false;
-	}
-	
-	// down
-	if (wnd.kbd.KeyIsPressed(VK_DOWN))
-	{
-		if (!bottomMaxVelocity)
-		{
-			vy = 1;
-			bottomMaxVelocity = true;
-		}
-	}
-	else
-	{
-		bottomMaxVelocity = false;
-	}
-
-	// left
-	if (wnd.kbd.KeyIsPressed(VK_LEFT))
-	{
-		if (!leftMaxVelocity)
-		{
-			vx = -1;
-			leftMaxVelocity = true;
-		}
-	}
-	else
-	{
-		leftMaxVelocity = false;
-	}
-	
-	// right
 	if (wnd.kbd.KeyIsPressed(VK_RIGHT))
 	{
-		if (!rightMaxVelocity)
-		{
-			vx = 1;
-			rightMaxVelocity = true;
-		}
-	}
-	else
-	{
-		rightMaxVelocity = false;
+		x_mobile = x_mobile + 1;
 	}
 
-	// reset velocity
-	if (wnd.kbd.KeyIsPressed(VK_SPACE))
+	if (wnd.kbd.KeyIsPressed(VK_LEFT))
 	{
-		vx = 0;
-		vy = 0;
+		x_mobile = x_mobile - 1;
 	}
 
-	// update velocity
-	x += vx;
-	y += vy;
-
-	/* Boundary Checks */
-
-	// out of bounds
-	if (x + 5 >= gfx.ScreenWidth) 
+	if (wnd.kbd.KeyIsPressed(VK_DOWN))
 	{
-		x = gfx.ScreenWidth - 6;
-		vx = 0;
-	} 
-	else if (x - 5 < 0)
-	{
-		x = 5;
+		y_mobile = y_mobile + 1;
 	}
 
-	if (y + 5 >= gfx.ScreenHeight) 
+	if (wnd.kbd.KeyIsPressed(VK_UP))
 	{
-		y = gfx.ScreenHeight - 6;
-		vy = 0;
-	}
-	else if (y - 5 < 0)
-	{
-		y = 5;
+		y_mobile = y_mobile - 1;
 	}
 
-	const int leftEdge = x - 5;
-	const int rightEdge = x + 5;
-	const int topEdge = y - 5;
-	const int bottomEdge = y + 5;
-
-	const int boxLeftEdge = boxX - 6;
-	const int boxRightEdge = boxX + 6;
-	const int boxTopEdge = boxY - 6;
-	const int boxBottomEdge = boxY + 6;
-
-	// overlaps box
-	if (leftEdge < boxRightEdge &&
-		rightEdge > boxLeftEdge &&
-		topEdge < boxBottomEdge &&
-		bottomEdge > boxBottomEdge)
-	{
-		isColliding = true;
-	} 
-	else
-	{
-		isColliding = false;
-	}
-
-	// change color
-	if (wnd.kbd.KeyIsPressed(VK_CONTROL) || isColliding)
-	{
-		color = 0;
-	}
-	else
-	{
-		color = 255;
-	}
-
-	shapeIsChange = wnd.kbd.KeyIsPressed(VK_SHIFT);
+	x_mobile = FixOutOfBound(x_mobile, gfx.ScreenWidth);
+	y_mobile = FixOutOfBound(y_mobile, gfx.ScreenHeight);
+	
+	colliding =
+		OverlapTest(x_fixed0, y_fixed0, x_mobile, y_mobile) ||
+		OverlapTest(x_fixed1, y_fixed1, x_mobile, y_mobile) ||
+		OverlapTest(x_fixed2, y_fixed2, x_mobile, y_mobile) ||
+		OverlapTest(x_fixed3, y_fixed3, x_mobile, y_mobile);
 }
 
 void Game::ComposeFrame()
 {
-	// point shape 
-	if (shapeIsChange) {
-		gfx.PutPixel(x, 1 + y, 255, color, 255);
-		gfx.PutPixel(x, 1 + y, 255, color, 255);
-		gfx.PutPixel(x, 1 + y, 255, color, 255);
-		gfx.PutPixel(x, 1 + y, 255, color, 255);
-		gfx.PutPixel(x, 1 + y, 255, color, 255);
-		gfx.PutPixel(x, 1 + y, 255, color, 255);
+	DrawBox(x_fixed0, y_fixed0, 0, 255, 0);
+	DrawBox(x_fixed1, y_fixed1, 0, 255, 0);
+	DrawBox(x_fixed2, y_fixed2, 0, 255, 0);
+	DrawBox(x_fixed3, y_fixed3, 0, 255, 0);
+
+	if (colliding)
+	{
+		DrawBox(x_mobile, y_mobile, 255, 0, 0);
 	}
-	// cross-line shape
 	else
 	{
-		// Left Line
-		gfx.PutPixel(-5 + x, y, 255, color, 255);
-		gfx.PutPixel(-4 + x, y, 255, color, 255);
-		gfx.PutPixel(-3 + x, y, 255, color, 255);
+		DrawBox(x_mobile, y_mobile, 255, 255, 255);
+	}
+}
 
-		// Right Line
-		gfx.PutPixel(3 + x, y, 255, color, 255);
-		gfx.PutPixel(4 + x, y, 255, color, 255);
-		gfx.PutPixel(5 + x, y, 255, color, 255);
+void Game::DrawBox(int x, int y, int r, int g, int b)
+{
+	gfx.PutPixel(-5 + x, -5 + y, r, g, b);
+	gfx.PutPixel(-5 + x, -4 + y, r, g, b);
+	gfx.PutPixel(-5 + x, -3 + y, r, g, b);
+	gfx.PutPixel(-4 + x, -5 + y, r, g, b);
+	gfx.PutPixel(-3 + x, -5 + y, r, g, b);
+	gfx.PutPixel(-5 + x, 5 + y, r, g, b);
+	gfx.PutPixel(-5 + x, 4 + y, r, g, b);
+	gfx.PutPixel(-5 + x, 3 + y, r, g, b);
+	gfx.PutPixel(-4 + x, 5 + y, r, g, b);
+	gfx.PutPixel(-3 + x, 5 + y, r, g, b);
+	gfx.PutPixel(5 + x, -5 + y, r, g, b);
+	gfx.PutPixel(5 + x, -4 + y, r, g, b);
+	gfx.PutPixel(5 + x, -3 + y, r, g, b);
+	gfx.PutPixel(4 + x, -5 + y, r, g, b);
+	gfx.PutPixel(3 + x, -5 + y, r, g, b);
+	gfx.PutPixel(5 + x, 5 + y, r, g, b);
+	gfx.PutPixel(5 + x, 4 + y, r, g, b);
+	gfx.PutPixel(5 + x, 3 + y, r, g, b);
+	gfx.PutPixel(4 + x, 5 + y, r, g, b);
+	gfx.PutPixel(3 + x, 5 + y, r, g, b);
+}
 
-		// Upper Line
-		gfx.PutPixel(x, -5 + y, 255, color, 255);
-		gfx.PutPixel(x, -4 + y, 255, color, 255);
-		gfx.PutPixel(x, -3 + y, 255, color, 255);
+bool Game::OverlapTest(int box0x, int box0y, int box1x, int box1y)
+{
+	const int left_box0 = box0x - 5;
+	const int right_box0 = box0x + 5;
+	const int top_box0 = box0y - 5;
+	const int bottom_box0 = box0y + 5;
 
-		// Bottom Line
-		gfx.PutPixel(x, 3 + y, 255, color, 255);
-		gfx.PutPixel(x, 4 + y, 255, color, 255);
-		gfx.PutPixel(x, 5 + y, 255, color, 255);
+	const int left_box1 = box1x - 5;
+	const int right_box1 = box1x + 5;
+	const int top_box1 = box1y - 5;
+	const int bottom_box1 = box1y + 5;
+
+	return
+		left_box0 <= right_box1 &&
+		right_box0 >= left_box1 &&
+		top_box0 <= bottom_box1 &&
+		bottom_box0 >= top_box1;
+}
+
+int Game::FixOutOfBound(int value, int maxValue)
+{
+	if (value + 5 > maxValue) 
+	{
+		return maxValue - 5;
+	}
+	else if (value - 5 < 0)
+	{
+		return 5;
 	}
 
-	// drawn box
-	// upper line
-	gfx.PutPixel(boxX, boxY, 0, 255, 0);
-	gfx.PutPixel(boxX + 1, boxY, 0, 255, 0);
-	gfx.PutPixel(boxX + 2, boxY, 0, 255, 0);
-	gfx.PutPixel(boxX + 3, boxY, 0, 255, 0);
-	gfx.PutPixel(boxX + 4, boxY, 0, 255, 0);
-	gfx.PutPixel(boxX + 5, boxY, 0, 255, 0);
-	gfx.PutPixel(boxX + 6, boxY, 0, 255, 0);
-
-	// bottom line
-	gfx.PutPixel(boxX, boxY + 6, 0, 255, 0);
-	gfx.PutPixel(boxX + 1, boxY + 6, 0, 255, 0);
-	gfx.PutPixel(boxX + 2, boxY + 6, 0, 255, 0);
-	gfx.PutPixel(boxX + 3, boxY + 6, 0, 255, 0);
-	gfx.PutPixel(boxX + 4, boxY + 6, 0, 255, 0);
-	gfx.PutPixel(boxX + 5, boxY + 6, 0, 255, 0);
-	gfx.PutPixel(boxX + 6, boxY + 6, 0, 255, 0);
-
-	// left line
-	gfx.PutPixel(boxX, boxY, 0, 255, 0);
-	gfx.PutPixel(boxX, boxY + 1, 0, 255, 0);
-	gfx.PutPixel(boxX, boxY + 2, 0, 255, 0);
-	gfx.PutPixel(boxX, boxY + 3, 0, 255, 0);
-	gfx.PutPixel(boxX, boxY + 4, 0, 255, 0);
-	gfx.PutPixel(boxX, boxY + 5, 0, 255, 0);
-	gfx.PutPixel(boxX, boxY + 6, 0, 255, 0);
-
-	// right line
-	gfx.PutPixel(boxX + 6, boxY, 0, 255, 0);
-	gfx.PutPixel(boxX + 6, boxY + 1, 0, 255, 0);
-	gfx.PutPixel(boxX + 6, boxY + 2, 0, 255, 0);
-	gfx.PutPixel(boxX + 6, boxY + 3, 0, 255, 0);
-	gfx.PutPixel(boxX + 6, boxY + 4, 0, 255, 0);
-	gfx.PutPixel(boxX + 6, boxY + 5, 0, 255, 0);
-	gfx.PutPixel(boxX + 6, boxY + 6, 0, 255, 0);
+	return value;
 }
+
