@@ -36,25 +36,35 @@ private:
 	void UpdateModel();
 	/********************************/
 	/*  User Functions              */
-	void DrawBox(int x, int y, int r, int g, int b);
-	bool OverlapTest(int box0x, int box0y, int box1x, int box1y);
-	int FixOutOfBound(int value, int maxValue);
+	void DrawFace(int x, int y);
+	void DrawPoo(int x, int y);
+	void DrawGameOver(int x, int y);
+	void DrawTitleScreen(int x, int y);
+	int ClampScreenX(int x, int width);
+	int ClampScreenY(int y, int height);
+	bool IsColliding(int x0, int y0, int width0, int height0,
+		int x1, int y1, int width1, int height1);
 	/********************************/
 private:
 	MainWindow& wnd;
 	Graphics gfx;
 	/********************************/
 	/*  User Variables              */
-	int x_fixed0 = 200;
-	int y_fixed0 = 200;
-	int x_fixed1 = 210;
-	int y_fixed1 = 200;
-	int x_fixed2 = 215;
-	int y_fixed2 = 200;
-	int x_fixed3 = 230;
-	int y_fixed3 = 200;
-	int x_mobile = 400;
-	int y_mobile = 400;
-	bool colliding = false;
+	int dudeX = 400;
+	int dudeY = 300;
+	int dudeWidth = 20;
+	int dudeHeight = 20;
+	int poo0X = 300;
+	int poo0Y = 150;
+	bool poo0IsEaten = false;
+	int poo1X = 100;
+	int poo1Y = 500;
+	bool poo1IsEaten = false;
+	int poo2X = 600;
+	int poo2Y = 400;
+	bool poo2IsEaten = false;
+	int pooWidth = 24;
+	int pooHeight = 24;
+	bool isStarted = false;
 	/********************************/
 };
