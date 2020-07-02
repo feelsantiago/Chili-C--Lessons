@@ -38,30 +38,35 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	if (wnd.kbd.KeyIsPressed(VK_UP))
+	{
+		box.y -= 1;
+	}
+
+	if (wnd.kbd.KeyIsPressed(VK_DOWN))
+	{
+		box.y += 1;
+	}
+
+	if (wnd.kbd.KeyIsPressed(VK_LEFT))
+	{
+		box.x -= 1;
+	}
+
+	if (wnd.kbd.KeyIsPressed(VK_RIGHT))
+	{
+		box.x += 1;
+	}
+
 }
 
 void Game::ComposeFrame()
 {
-	// Cross-Line Target Draw 
-
-	// Left Line
-	gfx.PutPixel(700, 504, 255, 255, 255);
-	gfx.PutPixel(701, 504, 255, 255, 255);
-	gfx.PutPixel(702, 504, 255, 255, 255);
-
-	// Right Line
-	gfx.PutPixel(706, 504, 255, 255, 255);
-	gfx.PutPixel(707, 504, 255, 255, 255);
-	gfx.PutPixel(708, 504, 255, 255, 255);
-
-	// Upper Line
-	gfx.PutPixel(704, 500, 255, 255, 255);
-	gfx.PutPixel(704, 501, 255, 255, 255);
-	gfx.PutPixel(704, 502, 255, 255, 255);
-
-	// Bottom Line
-	gfx.PutPixel(704, 506, 255, 255, 255);
-	gfx.PutPixel(704, 507, 255, 255, 255);
-	gfx.PutPixel(704, 508, 255, 255, 255);
-
+	for (int y = box.y; y < (box.height + box.y); y++)
+	{
+		for (int x = box.x; x < (box.width + box.x); x++)
+		{
+			gfx.PutPixel(x, y, 255, 255, 255);
+		}
+	}
 }
