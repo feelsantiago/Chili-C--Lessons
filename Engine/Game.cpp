@@ -58,6 +58,26 @@ void Game::UpdateModel()
 		box.x += 1;
 	}
 
+	if (wnd.kbd.KeyIsPressed('W'))
+	{
+		box.height -= 1;
+	}
+
+	if (wnd.kbd.KeyIsPressed('S'))
+	{
+		box.height += 1;
+	}
+
+	if (wnd.kbd.KeyIsPressed('A'))
+	{
+		box.width -= 1;
+	}
+
+	if (wnd.kbd.KeyIsPressed('D'))
+	{
+		box.width += 1;
+	}
+
 }
 
 void Game::ComposeFrame()
