@@ -26,7 +26,8 @@ void Dude::Update()
 	}
 }
 
-bool Dude::IsColliding(Poo poo)
+// read-only reference
+bool Dude::IsColliding(const Poo& poo)
 {
 	const int dudeRight = x + Dude::Width;
 	const int dudeBottom = y + Dude::Height;

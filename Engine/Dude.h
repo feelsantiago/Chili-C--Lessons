@@ -13,6 +13,7 @@ public:
 
 public:
 	void Update();
-	bool IsColliding(Poo poo);
+	// read-only reference
+	bool IsColliding(const Poo& poo);
 };
 
