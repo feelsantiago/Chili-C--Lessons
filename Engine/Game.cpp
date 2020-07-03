@@ -58,35 +58,14 @@ void Game::UpdateModel()
 		box.x += 1;
 	}
 
-	if (wnd.kbd.KeyIsPressed('W'))
+	if (wnd.mouse.LeftIsPressed())
 	{
-		box.height -= 1;
+		box.width = wnd.mouse.GetPosX();
+		box.height = wnd.mouse.GetPosY();
 	}
-
-	if (wnd.kbd.KeyIsPressed('S'))
-	{
-		box.height += 1;
-	}
-
-	if (wnd.kbd.KeyIsPressed('A'))
-	{
-		box.width -= 1;
-	}
-
-	if (wnd.kbd.KeyIsPressed('D'))
-	{
-		box.width += 1;
-	}
-
 }
 
 void Game::ComposeFrame()
 {
-	for (int y = box.y; y < (box.height + box.y); y++)
-	{
-		for (int x = box.x; x < (box.width + box.x); x++)
-		{
-			gfx.PutPixel(x, y, 255, 255, 255);
-		}
-	}
+	gfx.DrawRect(box.x, box.y, box.width, box.height, Colors::Cyan);
 }
