@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Graphics.h"
 #include "Poo.h"
 
 class Dude
@@ -15,5 +16,6 @@ public:
 	void Update();
 	// read-only reference
 	bool IsColliding(const Poo& poo);
+	void Draw(Graphics& gfx) const;
 };
 
