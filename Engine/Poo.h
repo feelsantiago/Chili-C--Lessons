@@ -1,4 +1,7 @@
 #pragma once
+
+#include "Graphics.h"
+
 class Poo
 {
 public:
@@ -14,6 +17,8 @@ public:
 public:
 	Poo();
 	Poo(int x, int y, int vx, int vy);
+	// non-mutate function: do not change any variable of the class
+	void Draw(Graphics& gfx) const;
 	void Update();
 };
 
