@@ -67,5 +67,6 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-	gfx.DrawRect(box.x, box.y, box.width, box.height, Colors::Cyan);
+	// gfx.DrawRect(box.x, box.y, box.width, box.height, Colors::Cyan);
+	gfx.DrawRect(200, 100, 100, Colors::Red);
 }
