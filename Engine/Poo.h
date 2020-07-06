@@ -4,13 +4,14 @@
 
 class Poo
 {
-public:
+private:
 	int x;
 	int y;
 	int vx;
 	int vy;
 	bool isEaten = false;
 
+public:
 	static constexpr int Width = 24;
 	static constexpr int Height = 24;
 
@@ -20,5 +21,7 @@ public:
 	// non-mutate function: do not change any variable of the class
 	void Draw(Graphics& gfx) const;
 	void Update();
+	bool IsEaten() const;
+	void setIsEaten(bool value);
 };
 

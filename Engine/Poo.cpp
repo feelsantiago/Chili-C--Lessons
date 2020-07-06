@@ -277,3 +277,13 @@ void Poo::Update()
 		vy = -vy;
 	}
 }
+
+bool Poo::IsEaten() const
+{
+	return isEaten;
+}
+
+void Poo::setIsEaten(bool value)
+{
+	isEaten = value;
+}

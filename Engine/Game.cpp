@@ -24,6 +24,9 @@
 
 Game::Game(MainWindow& wnd)
 	:
+	// The order of initialization construction
+	// is defined on the order of the .h file
+	// this order here does not mean shit
 	wnd(wnd),
 	gfx(wnd)
 {
@@ -73,15 +76,15 @@ void Game::UpdateModel()
 
 		if (dude.IsColliding(poo0))
 		{
-			poo0.isEaten = true;
+			poo0.setIsEaten(true);
 		}
 		if (dude.IsColliding(poo1))
 		{
-			poo1.isEaten = true;
+			poo1.setIsEaten(true);
 		}
 		if (dude.IsColliding(poo2))
 		{
-			poo2.isEaten = true;
+			poo2.setIsEaten(true);
 		} 
 	}
 	else
@@ -28450,22 +28453,22 @@ void Game::ComposeFrame()
 	}
 	else
 	{
-		if (poo0.isEaten && poo1.isEaten && poo2.isEaten)
+		if (poo0.IsEaten() && poo1.IsEaten() && poo2.IsEaten())
 		{
 			DrawGameOver(358, 268);
 		}
 
-		dude.Draw();
+		dude.Draw(gfx);
 
-		if (!poo0.isEaten)
+		if (!poo0.IsEaten())
 		{
 			poo0.Draw(gfx);
 		}
-		if (!poo1.isEaten)
+		if (!poo1.IsEaten())
 		{
 			poo1.Draw(gfx);
 		}
-		if (!poo2.isEaten)
+		if (!poo2.IsEaten())
 		{
 			poo2.Draw(gfx);
 		}
