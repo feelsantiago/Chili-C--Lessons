@@ -63,6 +63,7 @@ void Game::UpdateModel()
 
 		if (box.isTouchedBy(dude))
 		{
+			score.IncrementScore();
 			box.SetPosition(xDist(rng), yDist(rng));
 		}
 	}
@@ -28435,6 +28436,7 @@ void Game::ComposeFrame()
 		}
 		else
 		{
+			score.Draw(gfx);
 			box.Draw(gfx);
 
 			for (int i = 0; i < nPoo; ++i)
