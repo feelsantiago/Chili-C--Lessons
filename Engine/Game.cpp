@@ -35,6 +35,8 @@ Game::Game(MainWindow& wnd)
 	{
 		poos[i].Init(xDist(rng), yDist(rng), vDist(rng), vDist(rng));
 	}
+
+	box.SetPosition(xDist(rng), yDist(rng));
 }
 
 void Game::Go()
@@ -50,12 +52,18 @@ void Game::UpdateModel()
 	if (isStarted)
 	{
 		dude.Update(wnd.kbd);
+		box.Update();
 		dude.ClampToScreen();
 
 		for (int i = 0; i < nPoo; ++i)
 		{
 			poos[i].Update();
 			poos[i].ProcessConsumption(dude);
+		}
+
+		if (box.isTouchedBy(dude))
+		{
+			box.SetPosition(xDist(rng), yDist(rng));
 		}
 	}
 	else
@@ -28427,6 +28435,8 @@ void Game::ComposeFrame()
 		}
 		else
 		{
+			box.Draw(gfx);
+
 			for (int i = 0; i < nPoo; ++i)
 			{
 				poos[i].Draw(gfx);

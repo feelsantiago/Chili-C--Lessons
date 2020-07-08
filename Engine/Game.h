@@ -25,6 +25,7 @@
 #include "Graphics.h"
 #include "Poo.h"
 #include "Dude.h"
+#include "Box.h"
 #include <random>
 
 class Game
@@ -52,6 +53,7 @@ private:
 	std::uniform_int_distribution<int> xDist;
 	std::uniform_int_distribution<int> yDist;
 	Dude dude;
+	Box box;
 	static constexpr int nPoo = 20;
 	Poo poos[nPoo];
 	bool isStarted = false;
