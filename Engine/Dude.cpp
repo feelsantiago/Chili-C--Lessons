@@ -1,5 +1,6 @@
 #include "Dude.h"
 #include "Graphics.h"
+#include <assert.h>
 
 void Dude::ClampToScreen()
 {
@@ -364,6 +365,11 @@ void Dude::Update( const Keyboard & kbd )
 	}
 }
 
+void Dude::SetDirty()
+{
+	dirty = true;
+}
+
 int Dude::GetX() const
 {
 	return x;
@@ -382,4 +388,9 @@ int Dude::GetWidth() const
 int Dude::GetHeight() const
 {
 	return height;
+}
+
+int Dude::IsDirty() const
+{
+	return dirty;
 }
