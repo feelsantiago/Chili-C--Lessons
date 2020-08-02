@@ -345,29 +345,33 @@ void Dude::Draw( Graphics& gfx ) const
 	gfx.PutPixel( 12 + x,19 + y,0,0,0 );
 }
 
-void Dude::Update( const Keyboard & kbd )
+void Dude::Update( const Mouse & mouse )
 {
-	if( kbd.KeyIsPressed( VK_RIGHT ) )
+	if (mouse.LeftIsPressed())
 	{
-		x += speed;
-	}
-	if( kbd.KeyIsPressed( VK_LEFT ) )
-	{
-		x -= speed;
-	}
-	if( kbd.KeyIsPressed( VK_DOWN ) )
-	{
-		y += speed;
-	}
-	if( kbd.KeyIsPressed( VK_UP ) )
-	{
-		y -= speed;
-	}
-}
+		const int mouseX = mouse.GetPosX();
+		const int mouseY = mouse.GetPosY();
 
-void Dude::SetDirty()
-{
-	dirty = true;
+		if (mouseX > x)
+		{
+			x += speed;
+		}
+
+		if (mouseX < x)
+		{
+			x -= speed;
+		}
+
+		if (mouseY > y)
+		{
+			y += speed;
+		}
+
+		if (mouseY < y)
+		{
+			y -= speed;
+		}
+	}
 }
 
 int Dude::GetX() const
@@ -390,7 +394,3 @@ int Dude::GetHeight() const
 	return height;
 }
 
-int Dude::IsDirty() const
-{
-	return dirty;
-}
